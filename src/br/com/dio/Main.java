@@ -3,13 +3,12 @@ package br.com.dio;
 import br.com.dio.model.Board;
 import br.com.dio.model.Space;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Stream;
 
-import static br.com.dio.util.BoardTemplate.BOARD_TEMPLATE;
+import static br.com.dio.util.NoArgsRun.NOARGS;
+import static br.com.dio.util.Templates.CAMPO;
+import static br.com.dio.util.Templates.MENU;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.stream.Collectors.toMap;
@@ -23,23 +22,24 @@ public class Main {
     private final static int BOARD_LIMIT = 9;
 
     public static void main(String[] args) {
-        final var positions = Stream.of(args)
-                .collect(toMap(
-                        k -> k.split(";")[0],
-                        v -> v.split(";")[1]
-                ));
+        Map<String, String> pos;
+        if(args.length == 0){
+            pos = Stream.of(NOARGS)
+                    .collect(toMap(
+                            k -> k.split(";")[0],
+                            v -> v.split(";")[1]
+                    ));
+        }else{
+            pos = Stream.of(args)
+                    .collect(toMap(
+                            k -> k.split(";")[0],
+                            v -> v.split(";")[1]
+                    ));
+        }
+        final var positions = pos;
         var option = -1;
         while (true){
-            System.out.println("Selecione uma das opções a seguir");
-            System.out.println("1 - Iniciar um novo Jogo");
-            System.out.println("2 - Colocar um novo número");
-            System.out.println("3 - Remover um número");
-            System.out.println("4 - Visualizar jogo atual");
-            System.out.println("5 - Verificar status do jogo");
-            System.out.println("6 - limpar jogo");
-            System.out.println("7 - Finalizar jogo");
-            System.out.println("8 - Sair");
-
+            System.out.println(MENU);
             option = scanner.nextInt();
 
             switch (option){
@@ -125,7 +125,7 @@ public class Main {
             }
         }
         System.out.println("Seu jogo se encontra da seguinte forma");
-        System.out.printf((BOARD_TEMPLATE) + "\n", args);
+        System.out.printf((CAMPO) + "\n", args);
     }
 
     private static void showGameStatus() {
